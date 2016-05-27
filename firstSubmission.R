@@ -5,9 +5,22 @@ dirData = "C:\\Users\\Carlos\\Dropbox\\Doutorado\\Disciplinas\\IntroducaoIC\\Tra
 setwd(dirData)
 ### Read as Data Frames
 data.tr <- readr::read_csv('train.csv.zip')
-data.te <- readr::read_csv('test.csv.zip')
+data.tr = data.tr[complete.cases(data.tr),] # remove missing points
+
 ### Tranform target variable to factor
 data.tr$Target <- factor(data.tr$Target, levels = paste0('class', 1:7))
+
+normalize <- function(x) {(x - min(x, na.rm=TRUE))/(max(x,na.rm=TRUE) -
+                                                 min(x, na.rm=TRUE))}
+
+data.tr[,-56] <- as.data.frame(lapply(data.tr[,-56], normalize))
+# very that the range of all is [0, 1]
+lapply(data.tr[,-56], range)
+
+
+data.te <- readr::read_csv('test.csv.zip')
+data.te = data.te[complete.cases(data.te),] # remove missing points
+
 ### Convert Data Frames to matrices
 x <- as.matrix( subset(data.tr, select = -c(Id, Target)) )
 x.new <- as.matrix( subset(data.te, select = -c(Id)) )
