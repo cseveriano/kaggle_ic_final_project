@@ -1,6 +1,6 @@
 library('readr')
 library('R.utils')
-dirData = "C:\\Users\\Carlos\\Dropbox\\Doutorado\\Disciplinas\\IntroducaoIC\\Trabalho Final\\Codes"
+dirData = "C:\\Users\\Carlos\\Dropbox\\Doutorado\\Disciplinas\\IntroducaoIC\\Trabalho Final\\kaggle_ic_final_project"
 
 setwd(dirData)
 ### Read as Data Frames
@@ -21,7 +21,7 @@ glm.model <- lapply(levels(y), function(y.class) {
   glm(y ~., data.frame(x, y = y.num), family = binomial(link = "logit"))
 })
 ### Save model
-saveRDS(glm.model, file = 'glm_model.rds.gzip', compress = 'gzip')
+saveRDS(glm.model, file = 'glm_model.rds.gzip', compress = TRUE)
 # glm.model <- readRDS('glm_model.rds.gzip')
 ### Predict probabilities
 glm.pred <- lapply(glm.model, function(model) {
